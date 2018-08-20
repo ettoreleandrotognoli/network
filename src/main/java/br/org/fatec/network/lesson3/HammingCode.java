@@ -45,9 +45,7 @@ public class HammingCode {
     public boolean check(String code) {
       ParityIndexGenerator generator = new ParityIndexGenerator(index, size);
       return !generator.stream()
-          .peek(i -> System.out.print("Index:" + i))
           .map(index -> code.charAt(index - 1))
-          .peek(i -> System.out.println("\tValue:" + i))
           .map(c -> c == '1')
           .reduce(false, (a, b) -> a ^ b);
     }
@@ -81,8 +79,6 @@ public class HammingCode {
     }
     ParityGenerator generator = new ParityGenerator(size);
     return generator.stream()
-        .peek(parity -> System.out.println(
-            "code " + code + " at bit " + parity.getIndex() + " is " + parity.check(code)))
         .map(parity -> parity.check(code))
         .filter(it -> !it)
         .findFirst()
@@ -98,7 +94,6 @@ public class HammingCode {
         .filter(parity -> !parity.check(code))
         .map(Parity::getIndex)
         .reduce(0, Integer::sum);
-    System.out.println("wrong index :" + errorIndex);
     StringBuilder stringBuilder = new StringBuilder(code);
     char wrongBit = code.charAt(errorIndex - 1);
     char fixedBit = wrongBit == '1' ? '0' : '1';
