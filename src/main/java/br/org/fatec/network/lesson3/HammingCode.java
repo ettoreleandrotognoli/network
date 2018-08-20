@@ -2,7 +2,7 @@ package br.org.fatec.network.lesson3;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Function;
+import java.util.stream.Stream;
 
 public class HammingCode {
 
@@ -18,13 +18,10 @@ public class HammingCode {
       this.size = size;
     }
 
-    public void subscribe(Function<Integer, ?> observer) {
-      for (int startAt = index; startAt <= size; startAt += (index * 2)) {
-        int stopAt = startAt + index;
-        for (int i = startAt; i < stopAt; i += 1) {
-          observer.apply(i);
-        }
-      }
+    public Stream<Integer> stream() {
+      return Stream.iterate(index, it -> it + (index * 2))
+          .limit((int) Math.ceil(size / (2.0 * index)))
+          .flatMap(it -> Stream.iterate(it, i -> i + 1).limit(index));
     }
 
     public int getIndex() {
@@ -43,10 +40,11 @@ public class HammingCode {
       this.size = size;
     }
 
-    void subscribe(Function<Parity, ?> observer) {
-      for (int i = 1; Math.pow(2, i) <= size; i += 1) {
-        observer.apply(new Parity((int) Math.pow(2, i), size));
-      }
+    public Stream<Parity> stream() {
+      return Stream.iterate(1, it -> it + 1)
+          .limit((int) Math.ceil(Math.log(size)))
+          .map(it -> (int) Math.pow(2, it))
+          .map(it -> new Parity(it, size));
     }
   }
 
