@@ -41,12 +41,21 @@ public class HammingCodeTest {
     HammingCode.ParityGenerator generator = new HammingCode.ParityGenerator(15);
     generator.stream().forEach(result::add);
     for (int i = 0; i < result.size(); i += 1) {
-      assertEquals(result.get(i).getIndex(), Math.pow(2, i + 1));
+      assertEquals(result.get(i).getIndex(), Math.pow(2, i));
     }
+    assertEquals(4, result.size());
+
+    result = new ArrayList<>(4);
+    generator = new HammingCode.ParityGenerator(7);
+    generator.stream().forEach(result::add);
+    for (int i = 0; i < result.size(); i += 1) {
+      assertEquals(result.get(i).getIndex(), Math.pow(2, i));
+    }
+    assertEquals(3, result.size());
   }
 
   @Test
-  public void check() {
+  public void parityCheck() {
 
     HammingCode.Parity parity = new HammingCode.Parity(1, 7);
     assertTrue(parity.check("0000000"));
@@ -56,5 +65,23 @@ public class HammingCodeTest {
     assertFalse(parity.check("0000001"));
     assertFalse(parity.check("1000000"));
     assertFalse(parity.check("1010100"));
+  }
+
+  @Test
+  public void hammingCheck() {
+    HammingCode hammingCode = new HammingCode(7);
+    assertFalse(hammingCode.check("0000100"));
+    assertTrue(hammingCode.check("0000000"));
+    hammingCode = new HammingCode(15);
+    assertFalse(hammingCode.check("000100101010101"));
+    assertTrue(hammingCode.check("001100101010101"));
+  }
+
+  @Test
+  public void fix() {
+    HammingCode hammingCode = new HammingCode(7);
+    assertEquals("0000000", hammingCode.fix("0000100"));
+    hammingCode = new HammingCode(15);
+    assertEquals("001100101010101", hammingCode.fix("000100101010101"));
   }
 }
