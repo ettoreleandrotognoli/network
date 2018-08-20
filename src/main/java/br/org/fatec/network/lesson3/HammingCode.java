@@ -23,14 +23,6 @@ public class HammingCode {
           .limit((int) Math.ceil(size / (2.0 * index)))
           .flatMap(it -> Stream.iterate(it, i -> i + 1).limit(index));
     }
-
-    public int getIndex() {
-      return index;
-    }
-
-    public int getSize() {
-      return size;
-    }
   }
 
   static class ParityGenerator {
@@ -50,10 +42,12 @@ public class HammingCode {
 
   static class Parity {
 
-    public boolean paritOf(String code) {
-      boolean parityBit = false;
+    public boolean check(String code) {
       ParityIndexGenerator generator = new ParityIndexGenerator(index, size);
-      return parityBit;
+      return !generator.stream()
+          .map(index -> code.charAt(code.length() - index))
+          .map(c -> c == '1')
+          .reduce(false, (a, b) -> a ^ b);
     }
 
     int index;

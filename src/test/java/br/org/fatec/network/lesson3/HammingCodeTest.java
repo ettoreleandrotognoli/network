@@ -6,7 +6,9 @@ import java.util.List;
 import org.junit.Test;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertIterableEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 public class HammingCodeTest {
 
@@ -41,5 +43,18 @@ public class HammingCodeTest {
     for (int i = 0; i < result.size(); i += 1) {
       assertEquals(result.get(i).getIndex(), Math.pow(2, i + 1));
     }
+  }
+
+  @Test
+  public void check() {
+
+    HammingCode.Parity parity = new HammingCode.Parity(1, 7);
+    assertTrue(parity.check("0000000"));
+    assertTrue(parity.check("1010000"));
+    assertTrue(parity.check("1010101"));
+
+    assertFalse(parity.check("0000001"));
+    assertFalse(parity.check("1000000"));
+    assertFalse(parity.check("1010100"));
   }
 }
