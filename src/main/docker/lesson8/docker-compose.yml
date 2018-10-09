@@ -1,0 +1,20 @@
+version: '3'
+services:
+  nginx:
+    build: ./nginx
+    volumes:
+      - "${PWD}/html/:/usr/share/nginx/html/"
+      - "${PWD}/pki/:/tmp/ssl/"
+      - "${PWD}/nginx/:/etc/nginx/conf.d/"
+    expose:
+      - 80
+      - 443
+  apache:
+    build: ./apache
+    expose:
+      - 80
+      - 443
+    volumes:
+      - "${PWD}/pki/server.crt:/usr/local/apache2/conf/server.crt"
+      - "${PWD}/pki/server.key:/usr/local/apache2/conf/server.key"
+      - "${PWD}/html/:/usr/local/apache2/htdocs/"
