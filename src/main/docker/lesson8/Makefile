@@ -7,7 +7,7 @@ SUBJ_CN?=example.com
 
 
 %.key:
-	openssl genrsa -out $@
+	openssl genrsa -out $@ 4096
 
 %.crt: %.key
 	openssl req -new -x509 -days 3650 -key $< -out $@ -subj "/C=${SUBJ_C}/ST=${SUBJ_ST}/L=${SUBJ_L}/O=${SUBJ_O}/OU=${SUBJ_OU}/CN=${SUBJ_CN}"
