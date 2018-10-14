@@ -1,5 +1,0 @@
-CREATE TABLE shorted_url(
-    id INTEGER PRIMARY KEY AUTOINCREMENT,
-    url TEXT,
-    code TEXT UNIQUE
-);
