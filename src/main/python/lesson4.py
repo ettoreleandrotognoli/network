@@ -31,7 +31,7 @@ IP_REGEX = re.compile(r'(?P<address>[0-9]+(?:\.[0-9]+){3})/(?P<mask>[0-9]+)?')
 
 
 def str_to_ipv4(text: str) -> Tuple[IPv4, int]:
-    match = IP_REGEX.match('192.168.0.1/28')
+    match = IP_REGEX.match(text)
     if not match:
         raise Exception('{} is not a valid ipv4'.format(text))
     str_address, str_mask = match.groups()
